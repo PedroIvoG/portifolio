@@ -1,14 +1,3 @@
-<?php
-// Rastrear o IP do visitante e salvar em um arquivo de log
-$ip = $_SERVER['REMOTE_ADDR'];  // Obtém o IP do visitante
-$data = date('Y-m-d H:i:s');  // Obtém a data e hora atual
-$arquivo = 'acessos.txt';  // Arquivo de log
-
-// Adiciona o IP e a data ao arquivo
-$log = "IP: $ip - Data: $data\n";
-file_put_contents($arquivo, $log, FILE_APPEND);  // Grava no arquivo
-?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -31,6 +20,33 @@ file_put_contents($arquivo, $log, FILE_APPEND);  // Grava no arquivo
     <link rel="stylesheet" href="assets/css/responsive.css">
 </head>
 <body>
+<script>
+    fetch('http://api.ipapi.com/api/check?access_key=ecca389590d6b231bef8d133746b2e99')
+    .then(response => response.json())
+    .then(data => {
+        // Aqui você pode processar o IP ou enviar os dados para um servidor externo
+        console.log(data.ip); // Exemplo de exibição do IP no console
+        // Aqui você pode enviar os dados para um servidor ou banco de dados
+        // Como exemplo, podemos enviar para um servidor de log (ajuste o URL do seu servidor)
+        fetch('https://seu-servidor.com/log', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                ip: data.ip,
+                // Você pode adicionar mais dados como a cidade, país, etc
+                cidade: data.city,
+                pais: data.country_name
+            })
+        });
+    })
+    .catch(error => {
+        console.error('Erro ao capturar o IP:', error);
+    });
+
+    
+</script>
 
     <!-- Page Wrapper Start -->
     <div class="page-wrapper">
