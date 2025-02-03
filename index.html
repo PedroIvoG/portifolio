@@ -1,3 +1,14 @@
+<?php
+// Rastrear o IP do visitante e salvar em um arquivo de log
+$ip = $_SERVER['REMOTE_ADDR'];  // Obtém o IP do visitante
+$data = date('Y-m-d H:i:s');  // Obtém a data e hora atual
+$arquivo = 'acessos.txt';  // Arquivo de log
+
+// Adiciona o IP e a data ao arquivo
+$log = "IP: $ip - Data: $data\n";
+file_put_contents($arquivo, $log, FILE_APPEND);  // Grava no arquivo
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
